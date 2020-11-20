@@ -1,8 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import WebSocket from "isomorphic-ws";
+import "./styles/style.scss";
+
+export const ws = new WebSocket('ws://localhost:10187/messages');
+ 
+ws.onopen = function open() {
+  console.log("connected");
+}
+ws.onclose = function close() {
+  console.log("closed");
+}
 
 ReactDOM.render(
   <React.StrictMode>
