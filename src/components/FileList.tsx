@@ -50,7 +50,7 @@ export class FileList extends Component<Props, State> {
     render() {
         return (
             <div>
-                <h2 className="title">Last 10 Files</h2>
+                <h2 className="title">Files</h2>
                 <ul>
                     {this.state.files.map((file: File) => (
                         <li key={file.id}><a href={"http://localhost:10188/file/"+file.id}>{file.fileName}</a></li>
