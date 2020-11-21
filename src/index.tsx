@@ -1,24 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 import WebSocket from "isomorphic-ws";
 import "./styles/style.scss";
 
-export const ws = new WebSocket('ws://localhost:10187/messages');
- 
+export const ws = new WebSocket(
+    "ws://" + process.env.REACT_APP_API_URL + "/socket"
+);
+
 ws.onopen = function open() {
-  console.log("connected");
-}
+    console.log("connected");
+};
 ws.onclose = function close() {
-  console.log("closed");
-}
+    console.log("closed");
+};
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
+    document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

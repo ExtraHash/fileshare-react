@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { ws } from "..";
-import ax from "axios"
+import ax from "axios";
 
 type File = {
     id: string;
     fileName: string;
-}
+};
 
 type Props = {};
 type State = {
@@ -25,10 +25,10 @@ export class FileList extends Component<Props, State> {
     }
 
     async componentDidMount() {
-        const res = await ax.get("http://localhost:10188/file")
+        const res = await ax.get("http://localhost:10188/file");
         this.setState({
             files: res.data.reverse(),
-        })
+        });
 
         ws.onmessage = this.incoming;
     }
@@ -38,14 +38,14 @@ export class FileList extends Component<Props, State> {
         const file: File = JSON.parse(await blob.text());
 
         const files = this.state.files;
-        files.unshift(file)
+        files.unshift(file);
 
         if (files.length > 20) {
             files.pop();
         }
 
-        this.setState({ files })
-      }
+        this.setState({ files });
+    }
 
     render() {
         return (
@@ -53,10 +53,14 @@ export class FileList extends Component<Props, State> {
                 <h2 className="title">Files</h2>
                 <ul>
                     {this.state.files.map((file: File) => (
-                        <li key={file.id}><a href={"http://localhost:10188/file/"+file.id}>{file.fileName}</a></li>
+                        <li key={file.id}>
+                            <a href={"http://localhost:10187/file/" + file.id}>
+                                {file.fileName}
+                            </a>
+                        </li>
                     ))}
                 </ul>
             </div>
-        )
+        );
     }
 }
