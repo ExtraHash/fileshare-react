@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { ws } from "..";
+import { Message } from "./ChatText";
 import ax from "axios";
 
-type File = {
+export type File = {
     id: string;
     fileName: string;
 };
@@ -25,7 +26,9 @@ export class FileList extends Component<Props, State> {
     }
 
     async componentDidMount() {
-        const res = await ax.get("http://localhost:10188/file");
+        const res = await ax.get(
+            "http://" + process.env.REACT_APP_API_URL + "/file"
+        );
         this.setState({
             files: res.data.reverse(),
         });
@@ -33,18 +36,29 @@ export class FileList extends Component<Props, State> {
         ws.onmessage = this.incoming;
     }
 
-    async incoming(message: any) {
-        const blob: Blob = message.data;
-        const file: File = JSON.parse(await blob.text());
+    async incoming(event: any) {
+        const blob: Blob = event.data;
+        let message: Message;
 
-        const files = this.state.files;
-        files.unshift(file);
-
-        if (files.length > 20) {
-            files.pop();
+        try {
+            message = JSON.parse(await blob.text());
+        } catch (err) {
+            console.error(err);
+            return;
         }
 
-        this.setState({ files });
+        switch (message.type) {
+            case "file":
+                const files = this.state.files;
+                files.unshift(message.file);
+
+                if (files.length > 20) {
+                    files.pop();
+                }
+
+                this.setState({ files });
+                break;
+        }
     }
 
     render() {
@@ -54,7 +68,15 @@ export class FileList extends Component<Props, State> {
                 <ul>
                     {this.state.files.map((file: File) => (
                         <li key={file.id}>
-                            <a href={"http://localhost:10187/file/" + file.id}>
+                            <a
+                                target="__blank"
+                                href={
+                                    "http://" +
+                                    process.env.REACT_APP_API_URL +
+                                    "/file/" +
+                                    file.id
+                                }
+                            >
                                 {file.fileName}
                             </a>
                         </li>

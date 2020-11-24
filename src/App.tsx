@@ -1,13 +1,11 @@
 import React from "react";
+import { ChatText } from "./components/ChatText";
 import { FileUploader } from "./components/FileUploader";
-import { FileList } from "./components/FileList";
 
 function App() {
     return (
-        <div className="container">
-            <FileUploader />
-            <br />
-            <FileList />
+        <div className="app">
+            <ChatText />
         </div>
     );
 }

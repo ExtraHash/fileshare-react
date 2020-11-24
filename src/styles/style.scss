@@ -1,5 +1,25 @@
 @import "../../node_modules/bulma/bulma.sass";
 
-html {
-    margin-top: 2ch;
+.chat-box {
+    height: 90px;
+    position: fixed;
+    bottom: 0%;
+    width: 100%;
+}
+
+.box-wrapper {
+    margin: 1ch;
+}
+
+.media + .media {
+    border-top: none;
+    /* margin-top: 1rem; */
+    padding-top: 0;
+}
+
+.message-box {
+    position: absolute;
+    height: calc(100% - 90px);
+    bottom: calc(90px + 0.5ch);
+    top: 0.5ch;
 }
